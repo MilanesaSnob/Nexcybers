@@ -1,0 +1,21 @@
+# Excludes per CLAUDE.md project rules
+screenshots/
+uploads/
+dist/
+
+# OS and editor
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Node (if any dependencies added later)
+node_modules/
+package-lock.json
+yarn.lock
+
+# Local environment
+.env.local
+.env.*.local
