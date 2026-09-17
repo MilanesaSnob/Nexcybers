@@ -115,6 +115,8 @@ html:not([data-theme="light"]) #programas.p-band .pv-tab:not(.is-active){backgro
 html:not([data-theme="light"]) #programas.p-band .p-fig{background:#1C1F25}
 html:not([data-theme="light"]) #programas.p-band .p-panel{background:#1C1F25;position:relative}
 html:not([data-theme="light"]) #programas.p-band .p-panel::before{content:"";position:absolute;inset:0;background:radial-gradient(70% 60% at 70% 0%,var(--gold-glow),transparent 70%);opacity:.16;pointer-events:none}
+html:not([data-theme="light"]) #programas.p-band .pv-panel h3{color:#fff}
+html:not([data-theme="light"]) #programas.p-band .pv-panel p{color:#fff}
 [data-theme="light"] #programas.p-band .p-fig,[data-theme="light"] #programas.p-band .p-panel{background:var(--bg-2);position:relative}
 [data-theme="light"] #programas.p-band .p-panel::before{content:"";position:absolute;inset:0;background:radial-gradient(70% 60% at 70% 0%,var(--gold-glow),transparent 70%);opacity:.16;pointer-events:none}
 html:not([data-theme="light"]) .pv-stat{background:#1C1F25}
@@ -375,7 +377,6 @@ html:not([data-theme="light"]) .pv-stat{background:#1C1F25}
 #programas.p-band .p-body{color:var(--fg-soft);font-weight:400}
 #programas.p-band .p-body strong{color:var(--fg)}
 #programas.p-band .p-kicker{color:var(--gold)}
-#programas.p-band .p-src{color:var(--fg-mute)}
 #programas.p-band .p-card,#programas.p-band .p-fig,#programas.p-band .p-panel{border-color:var(--line)}
 #programas.p-band .p-card:hover{border-color:var(--line-2)}
 @media (max-width:900px){.proc-band .proc-icon svg{width:44px;height:44px}.proc-band .proc-stage{min-height:0}}
@@ -397,6 +398,7 @@ html:not([data-theme="light"]) .pv-stat{background:#1C1F25}
 .p-band .p-body strong{color:#000}
 .p-band .p-kicker{color:#fff}
 .p-band .p-src{color:rgba(255,255,255,.9)}
+#programas.p-band .p-src{color:var(--band-accent-text);margin-top:12px}
 .p-band .p-card,.p-band .p-fig,.p-band .p-panel{border-color:rgba(255,255,255,.22)}
 #a-medida.p-band .p-pair-text .p-body,#a-medida.p-band .p-panel .p-body{color:var(--fg-soft);font-weight:400}
 html:not([data-theme="light"]) #a-medida.p-band .p-pair-text{background:#1C1F25}

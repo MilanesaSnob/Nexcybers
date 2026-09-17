@@ -41,7 +41,7 @@ Cada página de nivel superior alterna **banda celeste / banda del theme** empez
 1. **Estructura:** `background: var(--gold-bg)` + pseudo-elemento `::before` a `var(--bg)` con `opacity: 0` + clase `.band-lit` (la cual pone opacity a 0 cuando banda entra en viewport vía IntersectionObserver en `assets/main.js`).
 2. **Actualizar IntersectionObserver:** Cuando se agrega banda celeste nueva, añadir su clase (`.why-band`, `.proc-band`, `.res-band`, `.p-band`, etc.) al selector en `assets/main.js` (alrededor línea 140), sino el fade no dispara.
 3. **NUNCA background propio en hijos directos** de banda celeste—celeste debe verse a través del velo. `.pil-card` dentro de `.why-band` NO lleva bg propio (excepción: `.pil-card` está explícitamente overrideado en CSS, aprobado este caso; documentar si agregás otros).
-4. **Texto sobre --gold-bg SIEMPRE fijo:** `#fff` o `#000`, nunca `var(--fg)` o `var(--fg-soft)`. ÚNICA excepción a "todo color vía variable" porque `--gold-bg` es idéntico en ambos themes y necesita contraste correcto en ambos sin fallback de variable.
+4. **Texto sobre --gold-bg SIEMPRE fijo:** `#fff` o `#000`, nunca `var(--fg)` o `var(--fg-soft)`. EXCEPCIÓN DOCUMENTADA: texto de referencia/acento (`.p-src`) sobre banda celeste puede usar `var(--band-accent-text)` (que es `#00bffe` dark / `#00648c` light, exactamente las variantes dark/light de `--gold`) cuando WCAG AA contraste contra `--gold-bg` requiere mayor legibilidad que blanco/negro puro. Esto es permitido solo cuando se codifica como variable CSS con valores explícitamente documentados para ambos themes.
 
 ## Accesibilidad & jerarquía visual
 

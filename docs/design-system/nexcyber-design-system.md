@@ -60,7 +60,8 @@ El sitio es dark-first con variante light (`[data-theme="light"]` en `<html>`). 
 | `--blue` | #2f7bff | #2f6fdb | Azul técnico: gráficos, visualizaciones, datos. |
 | `--blue-soft` | #6aa6ff | #1d54ad | Azul técnico suave: acentos secundarios en data. |
 | `--cyan` | #6ff0ff | #0091c9 | Cian: chips de "activo", estado active en visualizaciones. Mismo valor que light `--gold`. |
-| `--gold-bg` | #0091c9 | #0091c9 | **Fondo de banda celeste (fijo en ambos themes).** Fondos grandes de bandas (`.why-band`, `.proc-band`, `.res-band`, `.contact-info-card`). No cambia por theme. Ver guía de "Nueva sección". Texto sobre este fondo es siempre `#fff` o `#000` fijo (excepción a la regla de variables). |
+| `--gold-bg` | #0091c9 | #0091c9 | **Fondo de banda celeste (fijo en ambos themes).** Fondos grandes de bandas (`.why-band`, `.proc-band`, `.res-band`, `.contact-info-card`). No cambia por theme. Ver guía de "Nueva sección". Texto sobre este fondo es siempre `#fff` o `#000` fijo (excepción documentada a la regla de variables, ver sección "Regla de contraste" abajo). |
+| `--band-accent-text` | #00bffe | #00648c | **Texto de referencia/acento sobre banda celeste** — usado cuando WCAG AA contraste contra `--gold-bg` requiere mayor legibilidad que blanco/negro (ej: `.p-src` en Product). Toma los valores dark/light de `--gold` acento y es una excepción documentada a la regla "solo #fff o #000 en --gold-bg". |
 
 ### Glow & Effects
 
@@ -82,7 +83,7 @@ El sitio es dark-first con variante light (`[data-theme="light"]` en `<html>`). 
 - Dark: `--gold` → #06E094 (verde), `--gold-soft` → #3ef0b0, `--gold-bg` → #0A6B49
 - Light: `--gold` → #C6185C (magenta), `--gold-soft` → #A5134C, `--gold-bg` → #C6185C
 
-**Regla de contraste:** Texto sobre banda celeste (`--gold-bg`) es siempre `#fff` o `#000` fijo, nunca variables (`--fg`/`--fg-soft`). Es la **única excepción** a "todo color vía variable" porque el fondo celeste es idéntico en ambos themes y necesita contraste correcto en ambos.
+**Regla de contraste:** Texto sobre banda celeste (`--gold-bg`) es siempre `#fff` o `#000` fijo, nunca variables (`--fg`/`--fg-soft`), EXCEPTO: texto de referencia/acento puede usar `var(--band-accent-text)` (`#00bffe` dark / `#00648c` light) cuando WCAG AA contraste lo require. Ver `--band-accent-text` en la tabla de arriba. Es la **única excepción documentada** a "todo color vía variable" porque el fondo celeste es idéntico en ambos themes y necesita contraste correcto en ambos. Cualquier otra excepción requiere documentación previa.
 
 **Todos los colores cumplen AA (mínimo 4.5:1 cuerpo, 3:1 títulos) contra su fondo real.** No usar tonos "suavizados" a mano para bajar peso visual — usar `font-weight` o tamaño en su lugar.
 

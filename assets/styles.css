@@ -27,6 +27,7 @@
   --cyan:      #6ff0ff;
 
   --gold-bg:   #0091c9;      /* accent used as large background fill */
+  --band-accent-text: #00bffe;  /* reference/accent text on --gold-bg celeste band (WCAG AA contrast) */
   --gold-glow: rgba(0, 191, 254, 0.45);
   --blue-glow: rgba(47, 123, 255, 0.42);
   --ink-on-gold: #04222e;    /* icon/text color on solid --gold fill */
@@ -74,6 +75,7 @@
   --cyan:      #0091c9;
 
   --gold-bg:   #0091c9;
+  --band-accent-text: #00648c;  /* reference/accent text on --gold-bg celeste band (WCAG AA contrast) */
   --gold-glow: rgba(0, 145, 201, 0.25);
   --blue-glow: rgba(47, 111, 219, 0.22);
   --ink-on-gold: #ffffff;
@@ -1047,10 +1049,13 @@ body.sec-green .contact-info-card .contact-info-row { border-bottom-color: rgba(
 .proc-panel-num { grid-area: num; display: none; color: var(--gold-bg); font-size: 48px; line-height: 1; letter-spacing: -0.02em; }
 .proc-panel .proc-em { font-weight: 600; }
 .proc-meta { grid-area: meta; align-self: start; display: flex; align-items: center; gap: 20px; }
-.proc-meta-bar { flex: 1; height: 2px; background: rgba(0,100,140,.18); overflow: hidden; }
-.proc-meta-bar i { display: block; height: 100%; background: #00648c; transition: width .5s var(--ease); }
+.proc-meta-bar { flex: 1; height: 2px; background: rgba(100,180,255,.2); overflow: hidden; }
+.proc-meta-bar i { display: block; height: 100%; background: var(--gold); transition: width .5s var(--ease); }
+[data-theme="light"] .proc-meta-bar { background: rgba(0,100,140,.18); }
+[data-theme="light"] .proc-meta-bar i { background: #00648c; }
 @media (max-width: 900px) { .proc-meta { display: none; } }
-.proc-panel p { grid-area: text; margin: 0; color: #000; font-size: clamp(16px, 1.35vw, 18px); line-height: 1.55; text-wrap: pretty; }
+.proc-panel p { grid-area: text; margin: 0; color: var(--fg); font-size: clamp(16px, 1.35vw, 18px); line-height: 1.55; text-wrap: pretty; }
+[data-theme="light"] .proc-panel p { color: #000; }
 @media (max-width: 900px) {
   .proc-head { flex-direction: column; }
   .proc-head .proc-num { display: none; }
