@@ -191,8 +191,23 @@ Regla general: **ningún componente pierde función al pasar a mobile.** Si el l
 | `.kc-body` (panel + dial) | panel de estados a la izquierda, dial a la derecha | columna, el dial se centra debajo y crece a `clamp(140px,40vw,180px)` | ≤780px |
 | `.pf-trow` (tabla de reporte) | nombre / estado / fecha | se cae la columna de fecha (dato secundario, el estado es el que importa) | ≤560px |
 | `.proc-band` | tabs verticales + panel al costado, número gigante | stack, número e ícono reducidos, `min-height` liberado | ≤900px |
+| **Global typography** | `.display`, `.h2`, `.h3`, `.lead` en desktop sizes | Escala reducida con `clamp()` más agresivo para pantallas ≤640px | ≤640px |
+| **Global nav** (home) | Menú horizontal completo (`.nav` visible) | Menú desaparece (`.nav` hidden), hamburguesa visible (`.menu-btn` inline) | ≤980px |
+| **Home intro grid** (home.html) | 2 columnas (texto + visual) | 1 columna, visual debajo de texto | ≤980px |
+| **Services grid** (home.html) | 3 columnas (`.svc-grid`) | 2 columnas | ≤980px |
 
-Al agregar un componente nuevo: verificarlo a 360px, 390px, 768px y 1024px, y sumar su fila a esta tabla si necesita un tratamiento propio.
+**Breakpoints activos en el proyecto:**
+- `≤560px` — Componentes sensibles (tablas, layouts verticales)
+- `≤600px` — Hide supplementary elements (`.team-tip`, etc.)
+- `≤640px` — Typography fluid scale adjustment
+- `≤700px` — Major layout changes (tabs → scroll, metrics reveal, flow vertical)
+- `≤780px` — Panel + dial reflow
+- `≤820px` — Rollout timeline, comparison rows
+- `≤900px` — Large section reflow (`.p-pair`, `.proc-band`)
+- `≤980px` — Navigation menu toggle, grid reflow (intro, services)
+- `≤1000px` — Minor spacing/grid adjustments
+
+Al agregar un componente nuevo: verificarlo a 360px, 390px, 640px, 700px, 768px, 900px y 1024px, y sumar su fila a esta tabla si necesita un tratamiento propio.
 
 ## Auditoría y remediación (2026-09-17)
 
@@ -215,9 +230,20 @@ Se ejecutó auditoría completa del CSS contra sistema de diseño (ver REMEDIATI
 - Agregado `text-wrap: pretty` a: `.intro-copy p`, `.process-step p`, `.about-panel .ac-grid p`
 - Eliminados `text-wrap: normal` en `.res-article p` y `.svcd-item p`
 
-### Fase 4: Pendiente (Minor)
-- Documentar 4 breakpoints undocumentados en tabla de mobile breakpoints
-- Crear variable para color undocumented en `.rc-meta` si es necesario
+### Fase 4: Documentación (Minor) ✅
+- **Breakpoints documentados:** Agregadas 4 filas a tabla de mobile behavior (≤640px, ≤980px) + lista centralizada de todos los breakpoints activos
+- **Colores undocumentados:** Revisados y documentados en sección "Colores especiales"
+
+## Colores especiales (undocumentados historicamente, ahora referenciados)
+
+Durante la auditoría se identificaron colores que no tenían variables CSS pero se usaban en lugares específicos:
+
+| Uso | Valor Dark | Valor Light | Nota |
+|-----|-----------|-----------|------|
+| `.rc-meta` (Product course metadata) | #8e98a6 (antes) | #3c5975 (antes) | Intermedio entre `--fg-soft` y `--fg`. Considerar crear `--fg-muted` en futuras iteraciones si se reutiliza en más lugares. Por ahora documentado aquí. |
+| `.res-article .ra-note` (Article secondary text) | `var(--fg-soft)` ✅ | `#4a5c68` ✅ | YA REEMPLAZADO con variables en remediación Fase 2 |
+
+**Recomendación:** Si `.rc-meta` requiere un color específico distinto a `--fg-soft`, crear variable `--fg-muted` en próxima iteración. Por ahora permanece hardcodeado pero documentado.
 
 ## Checklist rápida
 
