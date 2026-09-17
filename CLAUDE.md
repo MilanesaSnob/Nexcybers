@@ -100,7 +100,7 @@ Cuando se prepara zip o deploy, incluir SOLO producción y contexto de diseño:
 - **Tipografía clase-driven.** .display, .h2, .h3, .lead significado semántico; nunca override font-size.
 - **Un componente botón, dos variantes.** .btn-primary y .btn-ghost solo. Nunca tercer color.
 - **Reusar card catálogo.** Usar existentes (.trust-card, .svc, .rcard, .pil-card, .p-pair, .proc-band, .contact-info-card, etc.). Documentar tipos nuevos en § Catálogo antes.
-- **Sin variables en texto sobre --gold-bg.** Fijo #fff o #000 solo.
+- **Texto sobre --gold-bg:** Fijo #fff o #000 por defecto. Excepciones documentadas permitidas (ej: `.p-src` con `#00bffe` dark / `#00648c` light para contraste WCAG AA).
 - **Probar dark y light.** Cada token color tiene dos valores; ambos deben funcionar.
 - **Equivalencia :hover mobile.** Si reveal/state está en :hover desktop, toggle click o show-by-default ≤700px mobile.
 - **Sin saltos línea forzados en párrafos.** `<br>` solo títulos. Párrafos cuerpo llevan `text-wrap: pretty`.

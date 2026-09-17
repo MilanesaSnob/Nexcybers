@@ -398,7 +398,8 @@ html:not([data-theme="light"]) .pv-stat{background:#1C1F25}
 .p-band .p-body strong{color:#000}
 .p-band .p-kicker{color:#fff}
 .p-band .p-src{color:rgba(255,255,255,.9)}
-#programas.p-band .p-src{color:var(--band-accent-text);margin-top:12px}
+#programas.p-band .p-src{color:#00bffe;margin-top:12px}
+[data-theme="light"] #programas.p-band .p-src{color:#00648c;margin-top:12px}
 .p-band .p-card,.p-band .p-fig,.p-band .p-panel{border-color:rgba(255,255,255,.22)}
 #a-medida.p-band .p-pair-text .p-body,#a-medida.p-band .p-panel .p-body{color:var(--fg-soft);font-weight:400}
 html:not([data-theme="light"]) #a-medida.p-band .p-pair-text{background:#1C1F25}
