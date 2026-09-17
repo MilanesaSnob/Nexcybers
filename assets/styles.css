@@ -1093,9 +1093,61 @@ body.sec-green .contact-info-card .contact-info-row { border-bottom-color: rgba(
 [data-theme="light"] .res-tabs button{color:#dbe9f7}
 [data-theme="light"] .res-tabs button:hover{color:#0d2238}
 [data-theme="light"] .res-tabs button.active{color:#00648c}
+[data-theme="light"] .res-tabs button[data-cat]:not([data-cat="all"]).active,
+[data-theme="light"] .blog-tabs button[data-cat]:not([data-cat="all"]).active {
+  color: var(--tint-ink);
+}
 /* Light theme: --gold is a dark fill, so chips filled with it need white ink */
 [data-theme="light"] .lang-toggle button.active{color:#fff}
+/* Category tints for active tab text */
+.res-tabs button[data-cat="ai"],
+.blog-tabs button[data-cat="ai"] {
+  --tint: #79f0c4;
+  --tint-ink: #0A6B49;
+}
+
+.res-tabs button[data-cat="identity"],
+.blog-tabs button[data-cat="identity"] {
+  --tint: #b9a8ff;
+  --tint-ink: #5B45C7;
+}
+
+.res-tabs button[data-cat="phishing"],
+.blog-tabs button[data-cat="phishing"] {
+  --tint: #ffc48c;
+  --tint-ink: #8A4A07;
+}
+
+.res-tabs button[data-cat="privacy"],
+.blog-tabs button[data-cat="privacy"] {
+  --tint: #9ee6ff;
+  --tint-ink: #0F5F87;
+}
+
+.res-tabs button[data-cat="risks"],
+.blog-tabs button[data-cat="risks"] {
+  --tint: #ff9ea8;
+  --tint-ink: #B02535;
+}
+
+.res-tabs button[data-cat="reg"],
+.blog-tabs button[data-cat="reg"] {
+  --tint: #79f0c4;
+  --tint-ink: #0A6B49;
+}
+
+.res-tabs button[data-cat="guide"],
+.blog-tabs button[data-cat="guide"] {
+  --tint: #7fd8ff;
+  --tint-ink: #076A8E;
+}
+
+/* Active: use accent for "All", tint for categories */
 .res-tabs button.active{color:var(--gold);font-weight:600;cursor:default}
+.res-tabs button[data-cat]:not([data-cat="all"]).active,
+.blog-tabs button[data-cat]:not([data-cat="all"]).active {
+  color: var(--tint);
+}
 .res-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:432px;gap:28px;margin-top:clamp(32px,4vw,52px)}
 .rcard{--tint:#7fd8ff;--tint-ink:#076A8E;position:relative;display:flex;flex-direction:column;background:#1C1F25;border-radius:16px;padding:16px 16px 20px;min-height:432px;height:100%;color:#eef2f6;overflow:hidden;opacity:0;transform:translateY(18px);transition:opacity .5s var(--ease) var(--d,0ms),transform .5s var(--ease) var(--d,0ms),border-radius .45s var(--ease)}
 .rcard.in{opacity:1;transform:none}
