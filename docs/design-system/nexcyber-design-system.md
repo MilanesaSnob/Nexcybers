@@ -127,12 +127,15 @@ Grillas de card usan `gap: 0` con bordes internos compartidos (`.svc-grid`) cuan
 
 ## Botones
 
-Un solo componente, dos variantes:
+Tres variantes de botón (la tercera es scope-específica):
 
 - **`.btn.btn-primary`** — fondo `--gold`, texto `#04222e` (dark) / `#fff` (light). Uso: la acción principal de la página (una por vista).
 - **`.btn.btn-ghost`** — fondo casi transparente, borde `--line-2`, texto `--fg`. Uso: acción secundaria junto a un primary.
+- **`.btn.btn-book`** — fondo `#06E094` (dark) / `#C6185C` (light), texto blanco/negro según contraste. Uso: **solo dentro de `body.sec-green`** (páginas Book a session). Este botón tiene identidad visual propia para diferenciar CTA de agendar sesión del resto del sitio. No usar en otras páginas ni contextos.
 
-Ambos: `padding:16px 28px`, `border-radius:100px` en reposo que colapsa a `0` en hover/focus (el "corte" cuadrado es la firma de interacción de todo botón del sitio, no un detalle opcional). Ícono de flecha `→` dentro de `.arw` se desliza 4px a la derecha en hover. Nunca crear un tercer color de botón sin necesidad real.
+**Estructura común:** `padding:16px 28px`, `border-radius:100px` en reposo que colapsa a `0` en hover/focus (el "corte" cuadrado es la firma de interacción de todo botón del sitio, no un detalle opcional). Ícono de flecha `→` dentro de `.arw` se desliza 4px a la derecha en hover.
+
+**Constraint:** No crear variantes nuevas de botón sin necesidad real y documentación previa. Las tres variantes (`btn-primary`, `btn-ghost`, `btn-book`) son las únicas permitidas.
 
 ## Catálogo de cards
 
@@ -190,6 +193,31 @@ Regla general: **ningún componente pierde función al pasar a mobile.** Si el l
 | `.proc-band` | tabs verticales + panel al costado, número gigante | stack, número e ícono reducidos, `min-height` liberado | ≤900px |
 
 Al agregar un componente nuevo: verificarlo a 360px, 390px, 768px y 1024px, y sumar su fila a esta tabla si necesita un tratamiento propio.
+
+## Auditoría y remediación (2026-09-17)
+
+Se ejecutó auditoría completa del CSS contra sistema de diseño (ver REMEDIATION_PLAN.md en scratchpad). **Cambios aplicados:**
+
+### Fase 1: Theme Compliance (Critical) ✅
+- `.res-article`: Convertida a dark/light blocks con variables (color, background)
+- `.svcd-item`: Convertida a dark/light blocks con variables
+- `.proc-panel`, `.proc-tab`: Agregadas variantes light theme
+- `.res-top` (botón back-to-top): Theme-aware con var(--fg), var(--bg)
+- Todos los elementos ahora responden correctamente al toggle [data-theme="light"]
+
+### Fase 2: Hardcoded Colors (Major) ✅
+- `.globe-popover`: Colores reemplazados con variables (--fg-mute, --fg, --fg-soft)
+- `.bene-band`, `.bene-panel[data-tone]`: Nuevas variables CSS (--tone-0 a --tone-3, --bene-band-bg)
+- `.res-tabs button`: #04222e → var(--fg)
+- `.rcard` metadata (`.rc-d`, `.rc-more`, `.rc-meta`): Colores reemplazados con variables
+
+### Fase 3: Text Wrapping (Major) ✅
+- Agregado `text-wrap: pretty` a: `.intro-copy p`, `.process-step p`, `.about-panel .ac-grid p`
+- Eliminados `text-wrap: normal` en `.res-article p` y `.svcd-item p`
+
+### Fase 4: Pendiente (Minor)
+- Documentar 4 breakpoints undocumentados en tabla de mobile breakpoints
+- Crear variable para color undocumented en `.rc-meta` si es necesario
 
 ## Checklist rápida
 

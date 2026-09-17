@@ -223,6 +223,29 @@
           "light": "#076A8E"
         }
       },
+      "benefitPanelTones": {
+        "note": "Benefit panels section uses 5 tone backgrounds. Tones 0-3 are transitional blues; tone 4 is the standard --gold-bg (celeste).",
+        "tone0": {
+          "dark": "#12283e",
+          "light": "#a8c5db"
+        },
+        "tone1": {
+          "dark": "#1c3b58",
+          "light": "#8ab3d6"
+        },
+        "tone2": {
+          "dark": "#2b5b86",
+          "light": "#6ca1cf"
+        },
+        "tone3": {
+          "dark": "#3179c4",
+          "light": "#4e8fc8"
+        },
+        "beneBandBg": {
+          "dark": "#081019",
+          "light": "#dbe9f7"
+        }
+      },
       "scopeOverride": {
         "bookASessionGreen": {
           "note": "body.sec-green scope: Book a session card uses custom palette overriding --gold, --gold-soft, --cyan across dark and light themes.",
