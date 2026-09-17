@@ -3,36 +3,107 @@ description: Nexcybers design system rules for this site
 alwaysApply: true
 ---
 
-When working on UI code, always use the project design system context:
+## READ THESE FIRST (in this order)
 
-- @docs/Sistema de diseño.md (tipografía, color por theme, spacing, botones, catálogo de cards)
-- @Nexcybers Color Palette.md (valores hex/rgba exactos de cada variable, dark y light)
-- @docs/Nueva sección - guía de estructura.md (esqueleto de página: header/footer, hero, sistema de bandas celeste/theme, librería de componentes por sección)
-- @docs/Blog - guia de contenido.md / @docs/Resources - guia de contenido.md / @docs/Servicios - guia de contenido.md (cómo agregar contenido a esas secciones sin tocar HTML/CSS)
+1. **@docs/design-system/nexcyber-design-tokens.json** — Source of truth: every token (color, spacing, typography, motion, component styles) with dark/light variants and llmImplementationNotes. Reference this to understand token structure and constraints.
+2. **@docs/design-system/nexcyber-design-system.md** — Detailed guide: token usage locations, card catalog, spacing scale, typography scale, theme behavior, mobile breakpoints, checklist. This is where all visual decisions are documented.
+3. **@Nexcybers Color Palette.md** — Exact hex/rgba values for each color variable in dark and light themes. Verification reference only.
+4. **@docs/Nueva sección - guía de estructura.md** — Page skeleton: header/footer, hero, celeste/theme band system, component library by section.
+5. **@docs/design-system/guides/** — Content guides:
+   - `blog-content.md` — How to add blog content
+   - `resources-content.md` — How to add resources
+   - `services-content.md` — How to add services
+   (All without touching HTML/CSS)
 
 This is a static multi-page site (`about.html`, `services.html`, `resources.html`, `blog.html`, `product.html`, `contact.html`, etc.) built with plain HTML + CSS + vanilla JS. No build step, no framework, no JSX.
 
-**Bandas celeste/theme (contrato de implementación):** toda página de nivel superior alterna banda celeste / banda del theme empezando en celeste justo después del hero, según **§2** de `Nueva sección - guía de estructura.md`. Una banda celeste nueva se implementa con el armazón `background: var(--gold-bg)` + `::before` a `var(--bg)` + `.band-lit` en opacity 0, **y** se suma su clase al selector del `IntersectionObserver` de bandas en `assets/main.js` (`.why-band, .proc-band, .res-band, .p-band, …`). Nunca declarar `background` propio en los hijos directos de una banda celeste — el celeste tiene que verse a través del velo.
+## Mandatory flow before ANY visual change
 
-**Texto sobre banda celeste:** siempre `#fff` o `#000` fijo, nunca `var(--fg)`/`var(--fg-soft)` — es la única excepción documentada a "todo color por variable" (ver `Sistema de diseño.md`).
+**STEP 1 — Read the design guides** (no shortcuts, no guessing):
+- nexcyber-design-tokens.json (understand token structure)
+- nexcyber-design-system.md (§ references below point to sections here)
 
-**Contraste AA obligatorio:** todo texto cumple AA (4.5:1 cuerpo, 3:1 título) contra su fondo real, salvo pedido explícito de lo contrario. Nunca bajar el peso visual de un párrafo con un hex intermedio a mano (ej. `#06283a` sobre celeste) — usar `font-weight`/tamaño en su lugar.
+**STEP 2 — Understand core rules** before writing any CSS:
+- **Spacing/sizing scale:** 4px multiples ONLY (4, 8, 12, 16, 20, 24, 32…). NEVER 14px, 18px, 22px, or other odd values—they break the system. Exceptions: font-size uses clamp() for fluid scaling; border-radius follows 4px scale except buttons (100px pill, 0 on hover).
+- **Colors via CSS variables ALWAYS:** `var(--token)` not hardcoded hex. ONLY exception: text on `--gold-bg` celeste band (always fixed `#fff` or `#000`, never `var(--fg)`). Every color in the JSON has dark/light variants—test both themes before claiming done.
+- **Themes:** `[data-theme="light"]` on `<html>` swaps all colors automatically. Your job: ensure contrast is AA (4.5:1 body, 3:1 title) in BOTH dark and light.
+- **Cards:** Reuse the catalog from nexcyber-design-system.md (§ Catálogo de cards). Do NOT invent new card types. If content doesn't fit an existing card, document the new type in nexcyber-design-system.md FIRST.
+- **Mobile:** No :hover on touch. Provide keyboard/tap equivalent (toggle via click, or reveal by default ≤700px). Never hide content behind hover.
 
-**Párrafos fluyen libremente:** sin `<br>` forzado (solo en títulos/encabezados) y sin `max-width` en `ch` salvo tres excepciones — lead de hero, banda CTA de cierre, footer. Todo párrafo de cuerpo lleva `text-wrap: pretty`. El resto del contenido crece según su contenedor.
+**STEP 3 — Document decisions in the same turn:**
+- Color/component changes → nexcyber-design-system.md (add/update relevant section)
+- New card type → add entry to § Catálogo de cards + describe structure, fondo, radius, uso
+- New mobile breakpoint behavior → add row to § Comportamiento en mobile
+- Component implementation notes → nexcyber-design-tokens.json llmImplementationNotes (if complex pattern)
 
-**Cards:** reusar el catálogo de `Sistema de diseño.md` (`.trust-card`, `.svc`, `.bene-panel`, `.rcard`, `.contact-info-card`). No crear una variante de card nueva si el contenido encaja en alguna existente.
+## Celeste band implementation contract (§2, Nueva sección - guía de estructura.md)
 
-Rules:
-- Preserve existing vanilla-JS patterns (`assets/main.js`, `assets/content.js`, per-page `.js` files). No introducir React, JSX ni un framework de UI.
-- No reescribir secciones o páginas completas salvo que se pida explícitamente.
-- No introducir librerías nuevas por CDN sin pedirlo explícitamente; las que ya están (GSAP/ScrollTrigger) se cargan con fallback local — ver `assets/vendor/README.txt`.
-- No introducir estilos visuales nuevos (colores, tipografías, radios, sombras) fuera de las variables y clases documentadas, salvo pedido explícito.
-- Header y footer se copian verbatim entre páginas — nunca reinterpretar su markup.
-- Todo texto visible va vía `data-i="clave"` + entrada en `assets/content.js` (`NX_CONTENT[lang]`), en EN y ES. Nunca hardcodear copy en el HTML.
-- Reveals de scroll (`data-reveal`, `data-reveal-dir`, `data-reveal-head`) y el fade de bandas (`band-lit`) ya están manejados por `main.js` — no escribir animación CSS/JS propia para eso.
-- Nexcybers tokens (colores, tipografía, spacing, radios) tienen precedencia sobre cualquier valor por defecto o calcado a mano. Usar siempre `var(--token)` o la clase (`.h2`, `.lead`, `.eyebrow`, `.btn-primary`, `.section-pad`…), nunca un hex o px suelto que ya tenga variable/clase equivalente.
-- Revisar todo cambio visual en dark y light theme, y en ambos idiomas, antes de darlo por terminado.
+Every top-level page alternates **celeste band / theme band** starting with celeste after the hero:
+1. **Structure:** `background: var(--gold-bg)` + `::before` pseudo-element set to `var(--bg)` at `opacity: 0` + class `.band-lit` which sets that opacity to 0 when band enters viewport (via `.band-lit` state in CSS, managed by IntersectionObserver in `assets/main.js`).
+2. **IntersectionObserver selector update:** When adding a new celeste band, append its class (`.why-band`, `.proc-band`, `.res-band`, `.p-band`, etc.) to the selector in `assets/main.js` (around line 140), otherwise the fade won't trigger.
+3. **NEVER declare own background on direct children** of a celeste band — celeste must show through the veil. `.pil-card` inside `.why-band` does NOT get its own bg (exception: `.pil-card` is explicitly overridden in the original CSS, approved for this one case; document if adding others).
+4. **Text on --gold-bg is ALWAYS fixed:** `#fff` or `#000`, never `var(--fg)` or `var(--fg-soft)`. This is the ONLY exception to "all color via variable" because `--gold-bg` is identical in both themes and needs correct contrast in both without variable fallback.
 
-**Entregables / exportación:** al preparar un zip o export para el servidor, incluir solo los `.html`, `assets/`, `robots.txt`, `sitemap.xml`, más `docs/`, `CLAUDE.md`, `nexcybers.mdc` y `Nexcybers Color Palette.md`. **Excluir siempre `screenshots/`, `uploads/` y `dist/`** — capturas de verificación, imágenes de referencia del chat y una copia vieja del sitio; ninguna la referencia una página.
+## Accessibility & visual hierarchy
 
-**Mantenimiento de estos documentos:** cualquier decisión de diseño nueva o cambiada (color, componente, spacing, patrón de sección, convención de contenido) se refleja en el documento correspondiente (`Sistema de diseño.md`, `Nueva sección - guía de estructura.md`, las guías de contenido, `Nexcybers Color Palette.md`, o este archivo) en el mismo turno en que se hace el cambio — no queda solo en el código.
+**WCAG AA compliance (no exceptions):** 4.5:1 minimum for body text, 3:1 for headings, against their actual background (dark or light). Never use tonal subtlety (e.g., dimmed `--fg-soft` at low opacity) to lower visual weight. Instead, adjust `font-weight` or `font-size`. Modulate hierarchy with scale and weight, not color tone.
+
+**Paragraph flow (no forced breaks):** No `<br>` inside body paragraphs (.lead, .p-body, .svc p, card descriptions). `<br>` only in titles/headlines where line break is a typography decision. All body paragraphs must include `text-wrap: pretty` to avoid orphaned words. `max-width` in `ch` **only in three places** (see nexcyber-design-system.md): hero lead, closing CTA band, footer. Everything else grows with its container.
+
+## Code patterns
+
+**Preserve existing vanilla JS:** `assets/main.js`, `assets/content.js`, per-page `.js` files. No React, JSX, or UI frameworks.
+
+**No new libraries:** Existing (GSAP/ScrollTrigger) load with local fallback (`assets/vendor/README.txt`). No new CDN libraries without explicit request.
+
+**No new visual styles:** All colors, typography, spacing, radii, shadows come from nexcyber-design-tokens.json. Use classes (`.h2`, `.lead`, `.eyebrow`, `.btn-primary`, `.section-pad`) or `var(--token)`, never hardcoded hex or px.
+
+**Header/footer verbatim:** Never reinterpret their markup across pages—copy exactly.
+
+**All visible text via data-i attribute:** `data-i="key"` in HTML + entry in `assets/content.js` (`NX_CONTENT[lang]`) for EN and ES. Never hardcode copy.
+
+**Scroll reveals & band fade handled by main.js:** `[data-reveal]`, `[data-reveal-dir]`, `[data-reveal-head]` and `.band-lit` opacity already managed. Don't write custom animation CSS/JS.
+
+**Test in dark and light, both languages, mobile ≤700px / ≤900px (see breakpoints in nexcyber-design-system.md § Comportamiento en mobile).**
+
+## Deliverables / Export
+
+When preparing a zip or deployment package, include ONLY production files and design context:
+
+- All `.html` files
+- `assets/` (CSS, JS, vendor libraries, fonts)
+- `robots.txt`, `sitemap.xml`
+- `docs/` (all guides, including content guides and design system)
+- `CLAUDE.md`, `nexcybers.mdc`
+- `Nexcybers Color Palette.md`
+- `docs/design-system/nexcyber-design-tokens.json`
+- `docs/design-system/nexcyber-design-system.md`
+
+**ALWAYS EXCLUDE:** `screenshots/`, `uploads/`, `dist/` (verification captures, chat references, old builds—none are referenced by any page).
+
+## Document maintenance (critical for AI consistency)
+
+**Any new or changed design decision must be documented in the same turn it's made.** Not optional, not later. The code is implementation; the docs are the contract. Without documentation, the next AI agent invents inconsistently.
+
+- **New color token or color change** → update `Nexcybers Color Palette.md` and `nexcyber-design-tokens.json`
+- **New card type or variant** → add to `nexcyber-design-system.md` § Catálogo de cards before reuse
+- **New spacing/sizing value** → verify it's a 4px multiple; document in `nexcyber-design-tokens.json` if it becomes a reusable token
+- **New button variant or change** → document in `nexcyber-design-system.md` § Botones
+- **New mobile breakpoint or responsive behavior** → add row to `nexcyber-design-system.md` § Comportamiento en mobile
+- **New component pattern (visuals, motion, interaction)** → document in `nexcyber-design-tokens.json` llmImplementationNotes + reference in this `.mdc` if it's a constraint
+- **New category tint or category logic** → update `nexcyber-design-system.md` § Category Tints
+
+## AI Constraints (bind all agents)
+
+- **Read design guides first.** No visual change without consulting nexcyber-design-tokens.json and nexcyber-design-system.md.
+- **Never hardcode colors or spacing.** Always use CSS variables or classes from the catalog.
+- **Spacing uses 4px multiples ONLY.** (4, 8, 12, 16, 20, 24, 32, 40, 48, 56, 64…). Never 14px, 18px, 22px.
+- **Typography class-driven.** .display, .h2, .h3, .lead for semantic meaning; never override font-size.
+- **One button component, two variants.** .btn-primary and .btn-ghost only. Never invent a third.
+- **Card catalog reuse.** Use existing cards (.trust-card, .svc, .rcard, .pil-card, .p-pair, .proc-band, .contact-info-card, etc.). Document new types in § Catálogo before reuse.
+- **No variables on text over --gold-bg.** Fixed #fff or #000 only.
+- **Test both dark and light themes.** Every color token has two values; both must work.
+- **Mobile :hover equivalence.** If reveal/state is behind :hover on desktop, provide click toggle or show-by-default ≤700px on mobile.
+- **No forced line breaks in paragraphs.** `<br>` only in titles. Body paragraphs carry `text-wrap: pretty`.
+- **Band celeste contract:** background: var(--gold-bg) + ::before overlay + .band-lit class + IntersectionObserver hook. Never own background on children.
+- **Document decisions in the same turn.** Not optional. Every visual change → corresponding guide entry.

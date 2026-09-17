@@ -36,8 +36,8 @@
     fill('contact_info_h', d.contact_info_h);
     const infoRows = document.getElementById('contact-info-rows');
     if (infoRows) infoRows.innerHTML = `
-      <div class="contact-info-row">${ICONS.phone}<div><span>${d.contact_info_phone_l}</span><a href="tel:+17862992594">+1 786 299 2594</a></div></div>
-      <div class="contact-info-row">${ICONS.mail}<div><span>${d.contact_info_email_l}</span><a id="contact-email" data-user="info" data-dom="nexcybers.com">info@nexcybers.com</a></div></div>`;
+      <div class="contact-info-row"><div class="icon-thumb">${ICONS.phone}</div><div><span>${d.contact_info_phone_l}</span><a href="tel:+17862992594">+1 786 299 2594</a></div></div>
+      <div class="contact-info-row"><div class="icon-thumb">${ICONS.mail}</div><div><span>${d.contact_info_email_l}</span><a id="contact-email" data-user="info" data-dom="nexcybers.com">info@nexcybers.com</a></div></div>`;
 
   };
 

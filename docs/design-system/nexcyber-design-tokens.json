@@ -1,0 +1,461 @@
+{
+  "meta": {
+    "name": "Nexcybers Design System",
+    "version": "1.0.0",
+    "mode": "base",
+    "description": "Core, semantic and component tokens for Nexcybers static multi-page site. All values are dark-first with light theme variant via [data-theme='light']. Semantic tokens use CSS var() aliases. Core/Spacing uses 4px multiples (4, 8, 12, 16, 20, 24, 28, 32...). Typography uses clamp() for responsive sizing (no px hardcoding). Colors change per theme; only exception is --gold-bg and text on --gold-bg (#fff or #000 fixed). Shadows and motion easing are theme-agnostic. Component tokens organize button, card, and section styles. Layout tokens reserve max-width, gutter, and section padding. Every color complies with WCAG AA (4.5:1 body, 3:1 title).",
+    "llmImplementationNotes": {
+      "designSystemFlowMandatory": "BEFORE any visual change: read the design guides (nexcyber-design-system.md, Nexcybers Color Palette.md, Nueva sección - guía de estructura.md). This is not optional. Understand: (1) spacing/sizing uses 4px multiples only (4,8,12,16,20,24,32...), never 14px/18px; (2) all colors via var(--token), never hardcoded hex except text on --gold-bg (#fff or #000 fixed); (3) dark/light themes must both work—test both before claiming done; (4) reuse card catalog from Sistema de diseño.md, no new variants without real need.",
+      "colorThemeImplementation": "Site is dark-first. All color tokens in :root resolve to dark values. [data-theme='light'] block overrides with light values. --gold-bg is an exception: same value (#0091c9) in both themes because it's used as a solid fill band background, and text over it is always fixed (#fff or #000), never var(--fg). Borders (--line, --line-2) use rgba() so they automatically adjust opacity for each theme. All WCAG AA contrast verified: 4.5:1 minimum for body text, 3:1 for titles, against their actual backgrounds (dark or light).",
+      "spacingScale4px": "All spacing, sizing, and border-radius use multiples of 4px: 4, 8, 12, 16, 20, 24, 28, 32, 40, 48, 56, 64, 80, 96, 120, 160... NO exceptions like 14px margin, 18px padding, 18px border-radius. Typography (font-size) is the ONLY exception: uses clamp() with fluid breakpoints, never fixed 4px multiples. This constraint ensures visual coherence and scaling predictability.",
+      "buttonImplementation": "Two variants only: .btn-primary (--gold background, #04222e text dark / #fff text light) and .btn-ghost (transparent bg, --line-2 border, --fg text). Both: padding 16px 28px, border-radius 100px at rest collapsing to 0 on hover/focus (the square corner is the signature interaction state, not optional). Icon arrow (.arw) slides right 4px on hover. Never invent a third color without explicit need.",
+      "cardCatalogReuse": "Reuse existing cards from Sistema de diseño.md catalog: .trust-card, .svc, .rcard, .contact-info-card, .pil-card, .p-pair, .proc-band, .p-cmp, .about-panel, .pv-tabs. Do NOT create new card variants without first checking if content fits an existing type. New cards are documented in Sistema de diseño.md BEFORE reuse, not invented inline.",
+      "bandCelestContractual": "Every top-level page alternates celeste band / theme band starting with celeste after hero per §2 of Nueva sección - guía de estructura.md. Celeste band implementation: background: var(--gold-bg) + ::before pseudo-element to var(--bg) + .band-lit class at opacity 0, AND add band's class (.why-band, .proc-band, .res-band, .p-band, etc.) to the IntersectionObserver selector in assets/main.js. NEVER declare own background on direct children of celeste band—celeste must show through the veil. NEVER use var(--fg) or var(--fg-soft) for text on --gold-bg: always fixed #fff or #000. This is the single exception to 'all color via variable'.",
+      "categoryTintColorSystem": "Blog, Resources, and Product categories each get two tints (dark and light). Tints appear in .rcard (resource/blog cards): category image background, category tag, title hover. In .res-article, .ra-article (inside articles): list item markers, separator lines. In .pv-stat (product stats): badge color + icon + number. In .p-met (hover-reveal metrics): primary color of active metric. Category list is closed (not invented): 'ai' (green), 'identity' (purple), 'phishing' (orange), 'privacy' (cyan), 'risks' (red), 'reg' (same as ai), or no category (default cyan). Tints defined via [data-cat='categoryname'] selector in CSS; never hardcoded per card.",
+      "themeToggleBehavior": "Site responds to [data-theme='light'] on <html>. All CSS custom properties update automatically. Icons (Material Symbols) scale with --gold color change. Logos swap (logo-dark / logo-light display toggle). Form inputs adjust background color (lifted at rest, down on focus). Contrast tested in both themes; text weight/size used to modulate visual hierarchy, never tonal subtlety (e.g., --fg-soft at lower opacity is incorrect; use font-weight or font-size instead).",
+      "typeScaleResponsive": "Typography sizes use clamp() so they scale fluidly between mobile and desktop. Do NOT override with fixed font-size. Classes (.display, .h2, .h3, .lead) provide semantic meaning; use them, never font-size from scratch. .display: clamp(44px, 8.2vw, 116px) weight 800. .h2: clamp(24px, 3vw, 36px) weight 700. .h3: clamp(24px, 2.6vw, 32px) weight 700. .lead: clamp(20px, 2.1vw, 24px) weight 400 color --fg-soft. Eyebrow: 14px weight 400 mono letter-spacing 0.22em uppercase. Body: 16px weight 400 line-height 1.6.",
+      "mobileEquivalenceHover": "On mobile, no :hover state. Components requiring hover reveal must provide keyboard/touch equivalent: either toggle via click (.p-met .is-open), or show revealed state by default at ≤700px breakpoint. Examples: .p-met (metrics)—number shows at rest on desktop, detail in hover; on mobile ≤700px, detail is shown by default. .proc-tab (process steps)—active tab panel on desktop desktop, all panels visible stacked on mobile ≤900px. Never hide content behind hover on touch devices.",
+      "paragraphFlowNoBreaks": "Body paragraphs flow freely. NO forced <br> inside .lead, .p-body, .svc p, descriptions, or any paragraph—layout handles wrap. <br> allowed ONLY in titles/headlines (.display, .h2, .h3) where line break is a typography decision. All body paragraphs must include text-wrap: pretty to avoid orphaned words. max-width in ch only in three places: hero lead (.about-hero .lead), closing CTA band (.band p, .final .lead), and footer (.foot-desc, .foot-news-p). Everything else grows with its container.",
+      "bgColorHierarchy": "Surface colors create visual hierarchy: --bg (page base, band background), --bg-1 (card default, form inputs), --bg-2 (gradient accent in about), --panel (hover/active state of cards). --bg-1 is the workhorse card color; --panel is the state-change signal. --panel-2 reserved for future expansion. Borders use --line (subtle) and --line-2 (prominent on hover). No other background values exist; these five are the complete palette."
+    }
+  },
+  "principles": {
+    "readabilityFirst": true,
+    "darkFirstThemeApproach": true,
+    "spacing4pxOnly": true,
+    "variablesDrivenColors": true,
+    "noHardcodedValues": true,
+    "mobileFirstResponsive": true,
+    "wcagAACompliance": true,
+    "cardCatalogReuse": true,
+    "themeToggleSupport": true
+  },
+  "tokens": {
+    "core": {
+      "color": {
+        "neutral": {
+          "white": "#FFFFFF",
+          "black": "#000000"
+        }
+      },
+      "spacing": {
+        "0": "0px",
+        "4": "4px",
+        "8": "8px",
+        "12": "12px",
+        "16": "16px",
+        "20": "20px",
+        "24": "24px",
+        "28": "28px",
+        "32": "32px",
+        "40": "40px",
+        "48": "48px",
+        "56": "56px",
+        "64": "64px",
+        "80": "80px",
+        "96": "96px",
+        "120": "120px",
+        "160": "160px"
+      },
+      "size": {
+        "0": "0px",
+        "4": "4px",
+        "6": "6px",
+        "8": "8px",
+        "12": "12px",
+        "14": "14px",
+        "16": "16px",
+        "18": "18px",
+        "20": "20px",
+        "24": "24px",
+        "28": "28px",
+        "32": "32px",
+        "36": "36px",
+        "40": "40px",
+        "48": "48px",
+        "56": "56px",
+        "68": "68px",
+        "88": "88px"
+      },
+      "border": {
+        "radius": {
+          "none": "0px",
+          "card": "12px",
+          "button": "100px",
+          "buttonActive": "0px",
+          "banner": "16px",
+          "pill": "999px"
+        },
+        "width": {
+          "hairline": "1px"
+        }
+      },
+      "shadow": {
+        "none": "none",
+        "glow": "0 10px 40px -8px {alias:semantic.gold-glow}"
+      },
+      "typography": {
+        "fontFamily": {
+          "sans": "Manrope, system-ui, -apple-system, sans-serif",
+          "mono": "IBM Plex Mono, ui-monospace, SF Mono, monospace"
+        },
+        "fontWeight": {
+          "regular": 400,
+          "medium": 500,
+          "semibold": 600,
+          "bold": 700,
+          "extraBold": 800
+        },
+        "fontSize": {
+          "12": "12px",
+          "14": "14px",
+          "16": "16px",
+          "18": "18px",
+          "20": "clamp(20px, 2.1vw, 24px)",
+          "display": "clamp(44px, 8.2vw, 116px)",
+          "h2": "clamp(24px, 3vw, 36px)",
+          "h2Home": "clamp(28px, 3.6vw, 48px)",
+          "h3": "clamp(24px, 2.6vw, 32px)"
+        },
+        "lineHeight": {
+          "tight": "1.04",
+          "solid": "1",
+          "standard": "1.3",
+          "relaxed": "1.5",
+          "body": "1.6"
+        },
+        "letterSpacing": {
+          "tight": "-0.035em",
+          "normal": "-0.02em",
+          "subtle": "-0.01em",
+          "eyebrow": "0.22em",
+          "mono": "0.1em"
+        }
+      },
+      "motion": {
+        "duration": {
+          "fast": "120ms",
+          "base": "180ms",
+          "slow": "280ms",
+          "slower": "350ms",
+          "crawl": "500ms"
+        },
+        "easing": {
+          "standard": "cubic-bezier(0.22, 1, 0.36, 1)",
+          "entrance": "cubic-bezier(0.16, 0.84, 0.24, 1)",
+          "exit": "cubic-bezier(0.3, 0, 0.8, 0.15)",
+          "elasticExit": "cubic-bezier(0.4, 0.05, 0.2, 1)"
+        }
+      }
+    },
+    "semantic": {
+      "color": {
+        "dark": {
+          "bg": "#06080c",
+          "bg1": "#090c12",
+          "bg2": "#0d1118",
+          "panel": "#11161f",
+          "panel2": "#161c27",
+          "fg": "#eef2f6",
+          "fgSoft": "#aab3c0",
+          "fgMute": "#e6f7ff",
+          "gold": "#00bffe",
+          "goldSoft": "#5dd6ff",
+          "blue": "#2f7bff",
+          "blueSoft": "#6aa6ff",
+          "cyan": "#6ff0ff",
+          "goldBg": "#0091c9",
+          "goldGlow": "rgba(0, 191, 254, 0.45)",
+          "blueGlow": "rgba(47, 123, 255, 0.42)",
+          "inkOnGold": "#04222e",
+          "line": "rgba(255, 255, 255, 0.08)",
+          "line2": "rgba(255, 255, 255, 0.14)"
+        },
+        "light": {
+          "bg": "#dbe9f7",
+          "bg1": "#cfe0f2",
+          "bg2": "#c3d7ee",
+          "panel": "#d6e6f6",
+          "panel2": "#cadef2",
+          "fg": "#0d2238",
+          "fgSoft": "#3c5975",
+          "fgMute": "#29597c",
+          "gold": "#00648c",
+          "goldSoft": "#004f6e",
+          "blue": "#2f6fdb",
+          "blueSoft": "#1d54ad",
+          "cyan": "#0091c9",
+          "goldBg": "#0091c9",
+          "goldGlow": "rgba(0, 145, 201, 0.25)",
+          "blueGlow": "rgba(47, 111, 219, 0.22)",
+          "inkOnGold": "#ffffff",
+          "line": "rgba(15, 45, 80, 0.12)",
+          "line2": "rgba(15, 45, 80, 0.22)"
+        }
+      },
+      "categoryTints": {
+        "ai": {
+          "dark": "#79f0c4",
+          "light": "#0A6B49"
+        },
+        "identity": {
+          "dark": "#b9a8ff",
+          "light": "#5B45C7"
+        },
+        "phishing": {
+          "dark": "#ffc48c",
+          "light": "#8A4A07"
+        },
+        "privacy": {
+          "dark": "#9ee6ff",
+          "light": "#0F5F87"
+        },
+        "risks": {
+          "dark": "#ff9ea8",
+          "light": "#B02535"
+        },
+        "reg": {
+          "dark": "#79f0c4",
+          "light": "#0A6B49"
+        },
+        "default": {
+          "dark": "#7fd8ff",
+          "light": "#076A8E"
+        }
+      },
+      "scopeOverride": {
+        "bookASessionGreen": {
+          "note": "body.sec-green scope: Book a session card uses custom palette overriding --gold, --gold-soft, --cyan across dark and light themes.",
+          "dark": {
+            "gold": "#06E094",
+            "goldSoft": "#3ef0b0",
+            "goldBg": "#0A6B49"
+          },
+          "light": {
+            "gold": "#C6185C",
+            "goldSoft": "#A5134C",
+            "goldBg": "#C6185C"
+          }
+        }
+      }
+    },
+    "component": {
+      "button": {
+        "primary": {
+          "padding": "16px 28px",
+          "borderRadius": "100px",
+          "borderRadiusHover": "0px",
+          "fontSize": "16px",
+          "fontWeight": "600",
+          "letterSpacing": "-0.01em",
+          "dark": {
+            "background": "{alias:semantic.color.dark.gold}",
+            "foreground": "{alias:semantic.color.dark.inkOnGold}"
+          },
+          "light": {
+            "background": "{alias:semantic.color.light.gold}",
+            "foreground": "#ffffff"
+          },
+          "hover": {
+            "background": "{alias:semantic.color.dark.goldSoft}",
+            "transform": "translateY(-2px)"
+          }
+        },
+        "ghost": {
+          "padding": "16px 28px",
+          "borderRadius": "100px",
+          "borderRadiusHover": "0px",
+          "fontSize": "16px",
+          "fontWeight": "600",
+          "letterSpacing": "-0.01em",
+          "background": "rgba(255, 255, 255, 0.02)",
+          "border": "1px solid {alias:semantic.color.dark.line2}",
+          "foreground": "{alias:semantic.color.dark.fg}",
+          "hover": {
+            "background": "rgba(255, 255, 255, 0.06)",
+            "borderColor": "{alias:semantic.color.dark.fgSoft}",
+            "transform": "translateY(-2px)"
+          }
+        },
+        "icon": {
+          "arrowShift": "4px",
+          "transitionDuration": "350ms"
+        }
+      },
+      "card": {
+        "trust": {
+          "background": "{alias:semantic.color.dark.bg1}",
+          "backgroundHover": "{alias:semantic.color.dark.panel}",
+          "border": "1px solid {alias:semantic.color.dark.line}",
+          "borderHover": "1px solid {alias:semantic.color.dark.line2}",
+          "borderRadius": "12px",
+          "padding": "28px",
+          "iconColor": "{alias:semantic.color.dark.gold}",
+          "numberFont": "mono 700 clamp(32px, 4vw, 40px)",
+          "labelFont": "sans 400 16px",
+          "topBarAnimation": "width .5s cubic-bezier(0.22, 1, 0.36, 1)",
+          "glowAnimation": "trust-glow-drift 8s ease-in-out infinite"
+        },
+        "service": {
+          "background": "{alias:semantic.color.dark.bg1}",
+          "backgroundHover": "{alias:semantic.color.dark.panel}",
+          "border": "1px solid {alias:semantic.color.dark.line}",
+          "borderRadius": "0px",
+          "padding": "32px",
+          "minHeight": "280px",
+          "iconColor": "{alias:semantic.color.dark.gold}",
+          "topBarAnimation": "width .4s cubic-bezier(0.22, 1, 0.36, 1)"
+        },
+        "resource": {
+          "background": "#1C1F25",
+          "backgroundLight": "{alias:semantic.color.light.bg}",
+          "height": "432px",
+          "borderRadius": "16px",
+          "borderRadiusHover": "0px",
+          "imageCollapseDuration": "400ms",
+          "categoryTintUsage": "image background, tag, title hover"
+        },
+        "contact": {
+          "background": "{alias:semantic.color.dark.goldBg}",
+          "borderRadius": "12px",
+          "padding": "24px",
+          "textColorFixed": "#0b0d10",
+          "textColorFixedLight": "#ffffff",
+          "border": "1px solid rgba(11, 13, 16, 0.2)"
+        },
+        "iconThumb": {
+          "size": "48px",
+          "borderRadius": "8px",
+          "backgroundDark": "{alias:semantic.color.dark.panel}",
+          "backgroundLight": "#ffffff",
+          "iconColor": "{alias:semantic.color.dark.gold}",
+          "iconColorLight": "#003d66",
+          "iconSize": "24px"
+        }
+      },
+      "section": {
+        "padding": "clamp(80px, 12vh, 160px)",
+        "maxWidth": "1280px",
+        "gutter": "clamp(20px, 5vw, 64px)",
+        "gap": "clamp(32px, 4vw, 48px)"
+      },
+      "band": {
+        "celeste": {
+          "background": "{alias:semantic.color.dark.goldBg}",
+          "overlay": "{alias:semantic.color.dark.bg}",
+          "overlayOpacity": "0",
+          "overlayOpacityLit": "0",
+          "textHeading": "#000000",
+          "textBody": "#000000",
+          "textAccent": "#ffffff",
+          "borderRadius": "0px"
+        }
+      },
+      "form": {
+        "input": {
+          "fontSize": "16px",
+          "padding": "16px",
+          "borderRadius": "12px",
+          "borderDark": "1px solid {alias:semantic.color.dark.line}",
+          "borderFocusDark": "1px solid {alias:semantic.color.dark.gold}",
+          "backgroundDark": "#1C1F25",
+          "backgroundFocusDark": "{alias:semantic.color.dark.bg1}",
+          "backgroundLight": "#ffffff",
+          "backgroundFocusLight": "{alias:semantic.color.light.bg1}"
+        },
+        "label": {
+          "fontFamily": "mono",
+          "fontSize": "12px",
+          "fontWeight": "600",
+          "letterSpacing": "0.08em",
+          "textTransform": "uppercase",
+          "color": "{alias:semantic.color.dark.fgMute}"
+        }
+      },
+      "eyebrow": {
+        "fontFamily": "mono",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "letterSpacing": "0.22em",
+        "textTransform": "uppercase",
+        "color": "{alias:semantic.color.dark.gold}",
+        "lineWidth": "24px",
+        "lineHeight": "1px",
+        "gap": "12px"
+      },
+      "typography": {
+        "display": {
+          "fontSize": "clamp(44px, 8.2vw, 116px)",
+          "fontWeight": "800",
+          "letterSpacing": "-0.035em",
+          "lineHeight": "0.94"
+        },
+        "h2": {
+          "fontSize": "clamp(24px, 3vw, 36px)",
+          "fontWeight": "700",
+          "letterSpacing": "-0.02em",
+          "lineHeight": "1.04"
+        },
+        "h2Home": {
+          "fontSize": "clamp(28px, 3.6vw, 48px)"
+        },
+        "h3": {
+          "fontSize": "clamp(24px, 2.6vw, 32px)",
+          "fontWeight": "700",
+          "letterSpacing": "-0.02em",
+          "lineHeight": "1.04"
+        },
+        "lead": {
+          "fontSize": "clamp(20px, 2.1vw, 24px)",
+          "fontWeight": "400",
+          "lineHeight": "1.5",
+          "color": "{alias:semantic.color.dark.fgSoft}",
+          "textWrap": "pretty"
+        },
+        "body": {
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "1.6",
+          "fontFamily": "sans",
+          "textWrap": "pretty"
+        }
+      }
+    },
+    "layout": {
+      "maxWidth": "1280px",
+      "gutter": "clamp(20px, 5vw, 64px)",
+      "sectionPadding": "clamp(80px, 12vh, 160px)",
+      "componentGap": "clamp(32px, 4vw, 48px)"
+    }
+  },
+  "aiConstraints": {
+    "mandatoryDesignGuideRead": true,
+    "neverHardcodeColors": true,
+    "neverHardcodeSpacing": true,
+    "alwaysUse4pxMultiples": true,
+    "neverInvent3rdButtonColor": true,
+    "neverCreateCardVariantWithoutNeed": true,
+    "alwaysReuseExistingCardCatalog": true,
+    "neverUseVariableOnGoldBgText": true,
+    "alwaysTestDarkAndLight": true,
+    "alwaysTestMobileHoverEquivalent": true,
+    "neverForcedLineBreaksInParagraphs": true,
+    "neverMaxWidthChExceptThreePlaces": true,
+    "neverUseDisplayNoneForContent": true,
+    "bandCelestNeverHasOwnBgOnChildren": true,
+    "alwaysDocumentNewComponents": true,
+    "neverInventCategoryNames": true,
+    "constraintNames": [
+      "designGuideMandatory",
+      "variableOnly",
+      "spacing4pxOnly",
+      "buttonTwoVariantsOnly",
+      "cardCatalogOnly",
+      "goldBgFixedText",
+      "testBothThemes",
+      "mobileTactileEquivalent",
+      "paragraphFlow",
+      "bandCelestContract"
+    ]
+  }
+}

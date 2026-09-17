@@ -37,7 +37,7 @@
   /* Rhythm */
   --maxw: 1280px;
   --gutter: clamp(20px, 5vw, 64px);
-  --radius: 14px;
+  --radius: 12px;
 
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 
@@ -662,7 +662,7 @@ section { position: relative; }
 .contact-form textarea { resize: vertical; min-height: 140px; font-family: inherit; }
 .contact-form button { justify-self: start; margin-top: 4px; }
 .contact-side { display: flex; flex-direction: column; gap: 32px; }
-.contact-info-card { border: 1px solid transparent; border-radius: var(--radius); padding: 24px; background: var(--gold-bg); }
+.contact-info-card { border: 1px solid transparent; border-radius: var(--radius); padding: 24px !important; background: var(--gold-bg); }
 /* Book a session: en light la card toma el color del boton primario (#C6185C).
    En dark se mantiene el verde profundo --gold-bg: el #06E094 del boton con texto
    blanco da 1.9:1 y seria ilegible. */
@@ -683,6 +683,10 @@ section { position: relative; }
 .contact-info-card h3 { font-family: var(--mono); font-size: 18px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #0b0d10; margin: 0 0 16px; }
 .contact-info-row { display: flex; align-items: center; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--line); }
 .contact-info-row:last-child { border-bottom: none; }
+.icon-thumb { width: 48px !important; height: 48px !important; border-radius: 8px !important; background: var(--panel) !important; display: flex !important; align-items: center !important; justify-content: center !important; flex-shrink: 0 !important; }
+[data-theme="light"] .icon-thumb { background: #fff !important; }
+.icon-thumb svg { width: 24px !important; height: 24px !important; stroke: var(--gold) !important; flex-shrink: 0 !important; }
+[data-theme="light"] .icon-thumb svg { stroke: #003d66; }
 .contact-info-row svg { flex: none; width: 24px; height: 24px; color: var(--gold); }
 .contact-info-row div span { display: block; font-family: var(--sans); font-size: 14px; font-weight: 500; color: var(--fg-mute); }
 .contact-info-row div a, .contact-info-row div p { font-family: var(--sans); font-size: 20px; font-weight: 400; color: var(--fg); margin: 4px 0 0; }

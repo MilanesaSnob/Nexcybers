@@ -1,8 +1,10 @@
 # Sistema de diseño — Nexcybers
 
-Referencia general de tokens visuales (tipografía, tamaños, color, spacing, cards) usados en todo el sitio. Para agregar contenido a una sección existente ver las guías de Blog/Resources/Servicios; para crear una sección nueva ver "Nueva sección — guía de estructura". Este documento es el de abajo de todo: de dónde salen los valores que esas guías asumen.
+Referencia general de tokens visuales (tipografía, tamaños, color, spacing, cards) usados en todo el sitio. Para agregar contenido a una sección existente ver las guías de Blog/Resources/Servicios en `docs/design-system/guides/`; para crear una sección nueva ver "Nueva sección — guía de estructura". Este documento es el de abajo de todo: de dónde salen los valores que esas guías asumen.
 
 Todos los valores viven como custom properties en `assets/styles.css` (`:root` + `[data-theme="light"]`). No hardcodear un color o tamaño calcado a mano: usar la variable o la clase.
+
+**Referencia cruzada:** cada token aquí corresponde a una entrada en `docs/design-system/nexcyber-design-tokens.json`. La estructura jerárquica del JSON (core → semantic → component → layout) es la fuente de verdad; este doc explica el USO y contexto.
 
 ## Tipografía
 
@@ -103,7 +105,7 @@ Cada categoría de Blog, Resources y Product tiene dos tints: uno para dark (`--
 - `.pv-stat` (stats en fichas de Product): badge de color + ícono + número
 - `.pm-active` (métrica con reveal): color principal de la métrica activada
 
-**Cómo agregar categorías nuevas:** ver **Blog — guía de contenido** y **Recursos — guía de contenido** en la carpeta `docs/`. Las categorías válidas son cerradas (no se inventan) y cada categoría tiene su color fijo en CSS (`[data-cat="nombre"]`).
+**Cómo agregar categorías nuevas:** ver **Blog — guía de contenido** y **Recursos — guía de contenido** en `docs/design-system/guides/`. Las categorías válidas son cerradas (no se inventan) y cada categoría tiene su color fijo en CSS (`[data-cat="nombre"]`).
 
 ## Spacing y layout
 
@@ -139,7 +141,7 @@ Ambos: `padding:16px 28px`, `border-radius:100px` en reposo que colapsa a `0` en
 | Trust card | `.trust-card` | `--bg-1`, hover `--panel` | `--radius` (14px) | Ícono + número grande (`.tc-n`) + label. Glow radial en hover, barra superior que crece de 0 a 100%. | Métricas/stats destacados. |
 | Service tile | `.svc` | `--bg-1` | — (celdas dentro de `.svc-grid`, borde compartido) | Ícono + título + bajada, sin separación entre celdas salvo el borde. | Grilla de 3 ítems cortos. |
 | Panel oblicuo | `.bene-panel` | tono sólido por `data-tone` (1–4, incluye `--gold-bg` en el tono 4) | — | Contenido centrado, todo el panel `skewX(-18deg)`. | Beneficios/diferenciadores de alto contraste. |
-| Resource/blog card | `.rcard` | `#1C1F25` fijo (no seguimos theme en dark; en light `var(--bg)`) con acento `--tint`/`--tint-ink` por categoría | 16px en reposo, **0 en hover/focus** (el "corte" de esquina) | Altura fija 432px, imagen de categoría + texto. En hover: la imagen colapsa (`height:0`), el título sube y cambia a `--tint`, la descripción se expande desde `max-height:0`. **Sin** glow radial ni elevación (`translateY`) — esos efectos son de `.p-card` genérico (trust-card, step, etc), no de esta familia. | Grilla filtrable (Resources, Blog) y cualquier card de este lenguaje (ver `.p-met` en Product → Measured). |s filtrables (Resources, Blog). |
+| Resource/blog card | `.rcard` | `#1C1F25` fijo (no seguimos theme en dark; en light `var(--bg)`) con acento `--tint`/`--tint-ink` por categoría | 16px en reposo, **0 en hover/focus** (el "corte" de esquina) | Altura fija 432px, imagen de categoría + texto. En hover: la imagen colapsa (`height:0`), el título sube y cambia a `--tint`, la descripción se expande desde `max-height:0`. **Sin** glow radial ni elevación (`translateY`) — esos efectos son de `.p-card` genérico (trust-card, step, etc), no de esta familia. | Grilla filtrable (Resources, Blog) y cualquier card de este lenguaje (ver `.p-met` en Product → Measured). |
 | Contact info card | `.contact-info-card` | `--gold-bg` | `--radius` | Filas de contacto, texto en negro fijo (ver regla de contraste arriba). | Página de contacto. |
 | Fichero/tabnav | `.pv-tabs` + `.pv-panel` | tabs en `--bg-1`; panel activo en `--gold-bg` | tabs `12px 12px 0 0`; panel `0 var(--radius) var(--radius) var(--radius)` | Tabs tipo carpeta (uno activo por vez) + panel único con tag, título grande, descripción y `.pv-stats`: chips blancos elevados, uno por dato (icono en badge de color + número mono grande + label), con tinte por tipo de dato (`--tint`/`--tint-ink` igual criterio que `.rcard` de Blog/Resources — violeta para conteos, ocre para vídeo, cian para duración, verde para el dato de cierre). | Mostrar de a uno varios ítems con texto largo + métricas cortas que necesitan destacarse (ficha de curso/programa). Ver Product → Specialized. |
 | Par texto+visual | `.p-pair` (`.p-pair-text` + `.p-pair-visual`) | `--bg-1`, borde compartido | `--radius` | Texto y su card visual (`.p-panel`/`.p-fig`) dentro de un único contenedor bordeado con divisor interno, siempre texto a la izquierda y visual a la derecha (nunca alternado) — evita la lectura en Z al dejar claro qué visual pertenece a qué texto. | Explicar un concepto con apoyo visual (panel de datos, figura animada). Ver Product → Specialized/Verifiable. |
