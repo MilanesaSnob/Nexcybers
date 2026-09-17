@@ -48,6 +48,7 @@ El sitio es dark-first con variante light (`[data-theme="light"]` en `<html>`). 
 |---|---|---|---|
 | `--fg` | #eef2f6 | #0d2238 | Texto principal: encabezados, párrafos, labels. Color por defecto de `body`. `.btn.btn-ghost` (borde y texto). Transiciones de color en `.res-tabs button` (hover/active). |
 | `--fg-soft` | #aab3c0 | #3c5975 | Texto secundario: bajadas bajo títulos (`.lead`), descripciones, subtítulos. Etiquetas de formulario. Puntero radar (`.radar-figure`). |
+| `--fg-muted` | #8e98a6 | #4a6280 | Texto intermedio: metadatos de cards (`.rc-meta` en Product), texto que necesita menos énfasis que `--fg-soft`. |
 | `--fg-mute` | #e6f7ff | #29597c | Etiquetas pequeñas, timestamps, texto muy suave. Labels de campo (`.contact-form label`). Acento claro para emfatizar. |
 
 ### Accents & Brand (Acentos de marca)
@@ -234,16 +235,16 @@ Se ejecutó auditoría completa del CSS contra sistema de diseño (ver REMEDIATI
 - **Breakpoints documentados:** Agregadas 4 filas a tabla de mobile behavior (≤640px, ≤980px) + lista centralizada de todos los breakpoints activos
 - **Colores undocumentados:** Revisados y documentados en sección "Colores especiales"
 
-## Colores especiales (undocumentados historicamente, ahora referenciados)
+## Colores especiales y su evolución
 
-Durante la auditoría se identificaron colores que no tenían variables CSS pero se usaban en lugares específicos:
+Durante la auditoría se identificaron colores que no tenían variables CSS. Todos han sido remediados:
 
-| Uso | Valor Dark | Valor Light | Nota |
-|-----|-----------|-----------|------|
-| `.rc-meta` (Product course metadata) | #8e98a6 (antes) | #3c5975 (antes) | Intermedio entre `--fg-soft` y `--fg`. Considerar crear `--fg-muted` en futuras iteraciones si se reutiliza en más lugares. Por ahora documentado aquí. |
-| `.res-article .ra-note` (Article secondary text) | `var(--fg-soft)` ✅ | `#4a5c68` ✅ | YA REEMPLAZADO con variables en remediación Fase 2 |
+| Uso | Antes | Ahora | Estado |
+|-----|-------|-------|--------|
+| `.rc-meta` (Product course metadata) | #8e98a6 / #3c5975 | `var(--fg-muted)` ✅ | VARIABLE CREADA: --fg-muted (#8e98a6 dark, #4a6280 light) |
+| `.res-article .ra-note` (Article secondary text) | #4a5c68 | `var(--fg-soft)` ✅ | YA REEMPLAZADO en remediación Fase 2 |
 
-**Recomendación:** Si `.rc-meta` requiere un color específico distinto a `--fg-soft`, crear variable `--fg-muted` en próxima iteración. Por ahora permanece hardcodeado pero documentado.
+**Mejora aplicada:** Creada variable `--fg-muted` para representar texto intermedio entre `--fg-soft` y `--fg`. Disponible para reutilizar en futuros componentes que necesiten ese nivel de énfasis.
 
 ## Checklist rápida
 
